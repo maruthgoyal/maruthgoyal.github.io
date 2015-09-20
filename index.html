@@ -11,12 +11,9 @@
 
         <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,100' rel='stylesheet' type='text/css'>  
 
-        <link href='https://fonts.googleapis.com/css?family=Press+Start+2P' rel='stylesheet' type='text/css'>
-
         <link href="animate.css" type="text/css" rel="stylesheet">
        
         <script src = "js/wow.min.js"></script>
-        <script src = "js/mobileNav.js"></script>
         
     </head>
 
@@ -128,6 +125,31 @@
 
 
     <script type="text/javascript">
+
+            function sizeChecker() {
+                    
+                    var screenWidth = window.outerWidth;
+
+                    var screenInnerWidt = window.innerWidth;
+                    var screenInnderH = window.innerHeight;
+
+                    if(screenWidth < 1025){
+
+                        document.getElementById('mainSheet').setAttribute('href', 'mobileStyle.css')
+                        console.log("true")
+
+                        if(screenInnerWidt < screenInnderH){
+                            document.getElementById('bigIcon').style.width = "55vw"
+                        }
+                    }
+                    
+                    else{
+
+                      document.getElementById('mainSheet').setAttribute('href', 'stylesheet.css')
+
+                    }
+                  
+            }
 
         new WOW().init();
         sizeChecker();

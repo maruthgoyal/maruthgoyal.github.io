@@ -50,12 +50,13 @@ a {
     position: fixed;
     z-index: 15;
     height: auto;
-    opacity: 80%;  
+    
 }
 
 #navImg{
 
    display: none;
+
 }
 
 nav{
