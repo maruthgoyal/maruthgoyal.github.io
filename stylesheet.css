@@ -9,6 +9,10 @@ body{
     padding: 0;
 }
 
+#iconContainer{
+    width: 35vw;
+    height: auto;
+}
 #bigIcon {
 
     width: 35vw;
