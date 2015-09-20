@@ -13,7 +13,7 @@ body{
 
     width: 35vw;
     height: auto;
-    padding: 10vh;
+    padding: 13vh;
 
 }
 
@@ -54,7 +54,7 @@ a {
 
 nav{
     
-    background-color: #bb1737;
+    background-color: #F9F7F7;
     
     padding: 1.5vw;
     opacity: 0.8;
@@ -74,16 +74,14 @@ nav ul{
 nav a{
     
     text-decoration: none;
-    color: #FFF;
+    color: #bb1737;
     font-family: 'Roboto Slab', serif;
     font-weight: 100;
     font-size: 2.5vw;
    
 }
 
-nav a:active{
-    color: #00FF00;
-}
+
 
 
 
