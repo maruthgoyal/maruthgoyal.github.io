@@ -48,8 +48,7 @@ a {
 
 #navImg{
 
-    float:left;
-    clear: left;
+   display: none;
 }
 
 #wrapper img{
