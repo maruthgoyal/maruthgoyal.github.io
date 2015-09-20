@@ -11,16 +11,15 @@ body{
 
 #iconContainer{
     width: 35vw;
-    height: auto;
+    height: 50vh;
     padding: 13vh;
     background-color: #FFF;
+
 }
 #bigIcon {
 
     width: 35vw;
     height: auto;
-    
-
 }
 
 h4{
@@ -148,6 +147,55 @@ nav ul a:hover{
     padding: 5vh;
     font-size: 3vh;
     margin-top: 32vh;
+
+}
+
+@media screen and (max-width: 1050px){
+
+    #bigIcon {
+
+        width: 25vw;
+        height: auto;
+        padding-top: 7vh;
+
+    }
+
+    #iconContainer{
+        width: 100%;
+        background-color: #FFF;
+        height: 100vh;
+        padding: 0px;
+    }
+
+    #navImg{
+
+        display: inline-block;
+        float:left;
+        clear: left;
+        width: 7vw;
+    }
+
+    nav {
+
+        background-color: #F9F7F7;
+        padding: 1.5vw;
+        opacity: 0.8;
+        padding-bottom: .5vw;
+
+    }
+
+    nav ul {
+        display: none;
+    }
+
+    #wrapper{
+        text-align: center;
+    }
+
+    h4{
+        font-size: 1.7em;
+    }
+
 
 }
 
