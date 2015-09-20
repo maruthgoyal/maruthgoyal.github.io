@@ -12,12 +12,13 @@ body{
 #iconContainer{
     width: 35vw;
     height: auto;
+    padding: 13vh;
 }
 #bigIcon {
 
     width: 35vw;
     height: auto;
-    padding: 13vh;
+    
 
 }
 
