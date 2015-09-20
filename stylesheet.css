@@ -108,25 +108,29 @@ nav ul a:hover{
 
 #about{
 
+    margin-top: 8vw;
+    padding: 10vh;
     background-color: #ff1744;
     color: #FFF;
     font-family: 'Roboto Slab', serif;
     font-weight: 300;
+    position: relative;
 
 }
 
 #about-text1{
     height: auto;
-    width: 55vh;
+    width: 80%;
     text-align: justify;
     padding: 5vh;
+    padding-top: 8vh;
     font-size: 3vh;
 }
 
 #about-text2{
 
     height: auto;
-    width: 55vh;
+    width: 80%;
     padding: 5vh;
     color: #40c4ff;
     background-color: #FFF; 
@@ -134,6 +138,8 @@ nav ul a:hover{
     text-align: justify;
     position: absolute;
     right: 0px;
+    top: 35%;
+    -webkit-transform: translateY(-50%);
    
 
 
@@ -142,7 +148,7 @@ nav ul a:hover{
 #about-text3{
 
     height: auto;
-    width: 55vh;
+    width: 80%;
     text-align: justify;
     padding: 5vh;
     font-size: 3vh;
@@ -157,6 +163,7 @@ nav ul a:hover{
         width: 25vw;
         height: auto;
         padding-top: 15vh;
+        z-index: 15;
 
     }
 
@@ -169,10 +176,16 @@ nav ul a:hover{
 
     #navImg{
 
+        position: absolute;
+        top: 15%;
+        right: 90%;
         display: inline-block;
         float:left;
         clear: left;
         width: 7vw;
+        
+        
+
     }
 
     nav {
@@ -193,7 +206,7 @@ nav ul a:hover{
     }
 
     h4{
-        font-size: 1.7em;
+        font-size: 2em;
     }
 
 
