@@ -51,12 +51,6 @@ a {
    display: none;
 }
 
-#wrapper img{
-
-    width: 65px;
-    height: auto;
-    display: inline-block;
-}
 nav{
     
     background-color: #bb1737;
@@ -106,38 +100,6 @@ nav ul a:hover{
     color: #000;
 }
 
-
-
-h1{
-    
-    font-family: 'Roboto Slab', serif;
-    font-weight: 300;
-    color: #FFF; 
-    font-size: 15vw;
-    text-align: center;
-
-    
-}
-
-h1:nth-child(2){
-     padding-top: 15vh;
-}
-
-h1:nth-child(3){
-     margin-top: -5vh;
-}
-
-h3{
-   
-    font-family: 'Roboto Slab', serif;
-    font-weight: 100;
-    color: #FFF; 
-    font-style: italic;
-    font-size: 4vh;
-    text-align: center;
-    margin: 1%;
-    padding-bottom: 15vh;
-}
 
 #about{
 
