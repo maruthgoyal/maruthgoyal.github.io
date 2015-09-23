@@ -250,7 +250,7 @@ nav ul a:hover{
     #navImg{
 
         position: absolute;
-        top: 15%;
+        top: 25%;
         right: 90%;
         display: inline-block;
         float:left;
@@ -264,7 +264,7 @@ nav ul a:hover{
     nav {
 
         background-color: #EEEEEE;
-        padding: 3vw;
+        padding: 3.5vw;
         opacity: 0.8;
         padding-bottom: .5vw;
 
@@ -280,6 +280,7 @@ nav ul a:hover{
 
     h4{
         font-size: 2em;
+        padding-bottom: 10px;
     }
 
     #about-text2{
