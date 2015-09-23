@@ -138,7 +138,7 @@ nav ul a:hover{
     text-align: justify;
     position: absolute;
     right: 0px;
-    top: 35%;
+    top: 40%;
     -webkit-transform: translateY(-50%);
    
 
@@ -207,6 +207,97 @@ nav ul a:hover{
 
     h4{
         font-size: 2em;
+    }
+
+    #about-text2{
+
+    height: auto;
+    width: 80%;
+    padding: 5vh;
+    color: #40c4ff;
+    background-color: #FFF; 
+    font-size: 3vh;
+    text-align: justify;
+    position: absolute;
+    right: 0px;
+    top: 35%;
+    -webkit-transform: translateY(-50%);
+   
+
+
+    }
+
+}
+
+@media screen and (max-width: 400px){
+
+     #bigIcon {
+
+        width: 25vw;
+        height: auto;
+        padding-top: 15vh;
+        z-index: 15;
+
+    }
+
+    #iconContainer{
+        width: 100%;
+        background-color: #FFF;
+        height: 100vh;
+        padding: 0px;
+    }
+
+    #navImg{
+
+        position: absolute;
+        top: 15%;
+        right: 90%;
+        display: inline-block;
+        float:left;
+        clear: left;
+        width: 7vw;
+        
+        
+
+    }
+
+    nav {
+
+        background-color: #EEEEEE;
+        padding: 3vw;
+        opacity: 0.8;
+        padding-bottom: .5vw;
+
+    }
+
+    nav ul {
+        display: none;
+    }
+
+    #wrapper{
+        text-align: center;
+    }
+
+    h4{
+        font-size: 2em;
+    }
+
+    #about-text2{
+
+    height: auto;
+    width: 80%;
+    padding: 5vh;
+    color: #40c4ff;
+    background-color: #FFF; 
+    font-size: 3vh;
+    text-align: justify;
+    position: absolute;
+    right: 0px;
+    top: 35%;
+    -webkit-transform: translateY(-50%);
+   
+
+
     }
 
 
