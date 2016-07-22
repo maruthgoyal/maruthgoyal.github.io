@@ -1,13 +1,19 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
 body{
     background-color: #FFF;
     margin: 0;
     padding: 0;
 }
 
-*{
-    margin: 0;
-    padding: 0;
+.icons{
+    display: inline-block;
 }
+
+
 
 #iconContainer{
     width: 35vw;
@@ -16,32 +22,25 @@ body{
     background-color: #FFF;
 
 }
+
 #bigIcon {
 
     width: 35vw;
     height: auto;
 }
 
-h4{
-    display: inline-block;
-    font-family: 'Roboto Slab', serif;
-    font-weight: 400;
-    font-style: bold;
+#activityIcon{
+
+    width: 10vw;
 }
+
+
 
 #titleArea {
 
     padding: 10vw;
 
 }
-
-a {
-	padding: 0;
-	margin: 0;
-	height: auto;
-	width: auto;
-}
-
 
 #wrapper{
    
@@ -57,54 +56,6 @@ a {
    display: none;
 
 }
-
-nav{
-    
-    background-color: #EEEEEE;
-    
-    padding: 1.5vw;
-    opacity: 0.8;
-    padding-bottom: .5vw;
-     
-}
-
-nav ul{
-    
-    list-style-type: none;
-    display: inline-block;
-    text-align: right;
-    float: right;
-}
-
-
-nav a{
-    
-    text-decoration: none;
-    color: #bb1737;
-    font-family: 'Roboto Slab', serif;
-    font-weight: 100;
-    font-size: 2.5vw;
-   
-}
-
-
-
-
-
-nav ul li {
- 
-    display: inline-block;
-    float: center;
-    width: auto;
-    height: auto;
-    margin-right: 1.5vw;
-     
-}
-
-nav ul a:hover{
-    color: #000;
-}
-
 
 #about{
 
@@ -156,7 +107,67 @@ nav ul a:hover{
 
 }
 
+a {
+    padding: 0;
+    margin: 0;
+    height: auto;
+    width: auto;
+}
+
+h4{
+    display: inline-block;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 400;
+    font-style: bold;
+}
+
+
+nav{
+    
+    background-color: #EEEEEE;
+    
+    padding: 1.5vw;
+    opacity: 0.8;
+    padding-bottom: .5vw;
+     
+}
+
+nav ul{
+    
+    list-style-type: none;
+    display: inline-block;
+    text-align: right;
+    float: right;
+}
+
+nav ul li {
+ 
+    display: inline-block;
+    float: center;
+    width: auto;
+    height: auto;
+    margin-right: 1.5vw;
+     
+}
+
+nav a{
+    
+    text-decoration: none;
+    color: #bb1737;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 100;
+    font-size: 2.5vw;
+   
+}
+
+nav ul a:hover{
+
+    color: #000;
+
+}
+
 @media screen and (max-width: 1050px){
+
 
     #bigIcon {
 
