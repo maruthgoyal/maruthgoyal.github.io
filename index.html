@@ -1,66 +1,107 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="">
 
 <head>
-    <meta charset="UTF-8">
-    <title>eSpice</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#3498db">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#3498db">
-    <meta name="description" content="The Official Website of eSpice - Computer Club of DPS, Noida">
-    <meta name="author" content="eSpice">
-    <meta name="keywords" content="eSpice, espice, e-spice, chirag bhansali, maruth goyal, computer ,club,dps,noida">
-    <meta property="og:title" content="eSpice" />
-    <meta property="og:type" content="Official Website" />
-    <meta property="og:url" content="http://espice.us" />
-    <meta property="og:image" content="http://espice.us/images/logo.jpg" />
-    <meta property="og:description" content="The official website of eSpice" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="js/main.js"></script>
-    <!--    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700|Roboto+Mono|Poppins" rel="stylesheet">-->
-    <link href="https://fonts.googleapis.com/css?family=Poppins|Inconsolata" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <link rel="icon" href="images/favicon.ico">
-    <link rel="stylesheet" href="css/style.css">
+    <title>Maruth Goyal's Portfolio</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.blue_grey-green.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="bower_components/animate.css/animate.min.css">
+    <link rel="stylesheet" href="styles/main.css">
 </head>
 
-<body>
-    <nav class="sidebar">
-        <div class="links">
-            <a href="index.html" class="active">Home</a>
-            <a href="about.html">About Us</a>
-            <a href="events.html">Events</a>
-            <div class="line-break"></div>
-            <div class="social">
-                <a href="https://www.facebook.com/eSpice">
-                    <i class="fa fa-facebook" aria-hidden="true"></i>
-                </a>
-                <a href="mailto:hi@espice.us"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+<body class="main mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header main">
+        <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+            <span>
+                <div class="mdl-layout__header-row"></div>
+                <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+                    <h2 style="font-family:'Monaco'">> Maruth Goyal's Portfolio<span class="blink">_</span></h2>
+                </div>
+
+                <div class="mdl-layout--small-screen-only mdl-layout__header-row">
+                    <h4 style="font-family:'Monaco'">> Maruth Goyal's<br>Portfolio<span class="blink">_</span></h4>
+                </div>
+            </span>
+            <div id="tabs" class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark" style="height:44px; font-family:'Monaco'">
+                <a href="#" class="mdl-layout__tab" onclick="goHome()"><span style="text-transform: lowercase;">cd Home</span></a>
+                <a href="#portfolio" class="mdl-layout__tab is-active"><span style="text-transform: lowercase;">ls Projects</span></a>
+                <a href="#help" class="mdl-layout__tab"><span style="text-transform: lowercase;">help</span></a>
             </div>
-        </div>
-    </nav>
-    <div class="hamburger">
-        <div class="burger one"></div>
-        <div class="burger two"></div>
-        <div class="burger three"></div>
-    </div>
-    <div class="wrapper">
-        <section class="header section">
-            <!--
-            <img src="assets/images/logo.png" alt="" class="site-logo animated bounceInRight">
-            <h1 class="main-heading">
-                HE<span class="break-line">LLO <span class="dot">.</span> </span>
-            </h1>
--->
-            <img src="images/logov14.png" alt="">
-            <h2 class="date">August 24, 2017</h2>
-            <div class="button-container">
-                <a class="button" href="invite.pdf">Download Invite</a>
-                <a class="button" href="registration.html">Register Now</a>
+        </header>
+
+        <main class="mdl-layout__content">
+            <!-- Portfolio !-->
+            <div class="mdl-layout__tab-panel is-active" id="portfolio">
+
             </div>
-        </section>
+
+            <!-- help !-->
+            <div class="mdl-layout__tab-panel" id="help">
+                <section class="section--center mdl-grid mdl-grid--no-spacing">
+                    <div class="mdl-cell mdl-cell--12-col">
+                        <h4 style="font-family:'Monaco';">Help</h4>
+                        <p>To be filled. Entire portfolio below.</p>
+
+                            <form method="get" action="mgoyal_portfolio.zip" style="text-align:center">
+                                <button id="down" class="mdl-button mdl-js-button mdl-button--primary">Download Portfolio</button>
+                            </form>
+
+                        <div class="mdl-tooltip" for="down">zip compression</div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- footer !-->
+            <footer class="mdl-mini-footer">
+                <div class="mdl-mini-footer__left-section">
+                    <div class="mdl-logo">Matthew Stallone</div>
+                    <ul class="mdl-mini-footer__link-list">
+                        <li><a href="#" onclick="alert('None. ;)')">Privacy & Terms</a></li>
+                    </ul>
+                </div>
+
+                <div class="mdl-mini-footer__right-section">
+                    <ul class="mdl-mini-footer__link-list">
+                        <li>All rights reserved, 2016</li>
+                    </ul>
+                </div>
+            </footer>
+        </main>
     </div>
+
+    <!-- home !-->
+    <div class="container" style="text-align: center">
+        <div id="close" class="close" style="float:left; color: #465a63; padding-left:20px; cursor: pointer;" onclick="goHome()"><i class="fa fa-times fa-2x"><span class="fix-editor">&nbsp;</span></i></div>
+
+        <h1 style="color: #495d66; font-size: 4.5em; font-weight: 900; letter-spacing: -0.04em; line-height: 1em; padding-top:1em; margin-top: 0"> Maruth Goyal </h4>
+        <p style="color: #495d66; font-size: 1.25em; margin: 0.75em 0 0.25em 0; padding-bottom: 1.6em">Student &nbsp;&bull;&nbsp; Developer</p>
+
+        <div id="twitter" class="icon-wrapper"><a href="#" style="text-decoration:none; rgba(0, 0, 0, 0.0);"><i class="fa fa-twitter custom-icon"><span class="fix-editor">&nbsp;</span></i></a></div>
+        <div class="mdl-tooltip" for="twitter">Follow me on Twitter</div>
+
+        <div id="facebook" class="icon-wrapper"><a href="https://www.facebook.com/maruthgoyal" style="text-decoration:none; rgba(0, 0, 0, 0.0);"><i class="fa fa-facebook custom-icon"><span class="fix-editor">&nbsp;</span></i></a></div>
+        <div class="mdl-tooltip" for="facebook"> Find me on Facebook </div>
+
+        <div id="port" class="icon-wrapper" onclick="goHome()"><i class="fa fa-folder-o custom-icon"><span class="fix-editor">&nbsp;</span></i></div>
+        <div class="mdl-tooltip" for="port">View my Portfolio</div>
+
+        <div id="github" class="icon-wrapper"><a href="https://github.com/maruthgoyal" style="text-decoration:none; rgba(0, 0, 0, 0.0);"><i class="fa fa-github custom-icon"><span class="fix-editor">&nbsp;</span></i></a></div>
+        <div class="mdl-tooltip" for="github">View my Github</div>
+
+        <div id="email" class="icon-wrapper"><a href="mailto:maruth@maruthgoyal.com" style="text-decoration:none; rgba(0, 0, 0, 0.0);"><i class="fa fa-envelope-o custom-icon"><span class="fix-editor">&nbsp;</span></i></a></div>
+        <div class="mdl-tooltip" for="email">Email me</div>
+    </div>
+
+    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="scripts/min/main-min.js"></script>
+    <script src="bower_components/foggy/jquery.foggy.min.js"></script>
 </body>
 
 </html>
