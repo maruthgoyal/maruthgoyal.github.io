@@ -38,12 +38,12 @@ function addProjects() {
     $('#portfolio').append(newProject("The Evolution of Words and Spellings Over the Centuries", "I collected usage data\
         of English words of French origin over 5 centuries using Google's N-gram corpora, by writing an automated Python script.\
         I then aggregated the data in several ways and created plots, further connecting the trends to possible historical causes. ",
-         "english_projects", ["english_project.pdf"], "06/2016"));
+         "https://www.dropbox.com/s/l6vh5x37zaxei8x/English%20Project%20.pdf?dl=0", "06/2016"));
 
     $('#portfolio').append(newProject("Zipf's Law", "A research project for a competition. I detailed the mathetmatical foundings\
         of Zipf's Law, its appearances in random texts, and in sentence spaces generated using Context-Free Grammars (CFGs). I further\
         discussed applications of the law to Caching and Password Strength.",
-    "Zipf", ["Zipf's Law.pdf"], "10/2017"));
+    "https://www.dropbox.com/s/d34vepi12xo7fh9/Zipf_Maruth_DPS_Noida.pdf?dl=0", "10/2017"));
 
     $('#portfolio').append(newProject("Poetry Generator", "Generates poetry by converting a data-set to a frequency\
         graph, and then performs a weighted Markovian walk over the graph.","https://github.com/maruthgoyal/poem_generator", "12/2016"));
