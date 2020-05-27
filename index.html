@@ -1,136 +1,107 @@
-<!DOCTYPE HTML>
-<html lang="en">
-    
-    <head>
-        
-        <link rel="shortcut icon" href="icon.ico"/>
-        <meta name="viewport" content = "width = device-width, initial-scale = 1.0">
-        <title>Maruth Goyal. 1 0 0.5</title>
-    
-        <link href="stylesheet.css" type="text/css" rel="stylesheet"/>  
-        <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,100' rel='stylesheet' type='text/css'>  
-        <link href='https://fonts.googleapis.com/css?family=Press+Start+2P' rel='stylesheet' type='text/css'>
-        <link href="animate.css" type="text/css" rel="stylesheet">
-       
-        <script src = "js/wow.min.js"></script>
-        <script src = "js/mobileNav.js"></script>
-        
-    </head>
+<!doctype html>
+<html lang="">
 
-    <body>
-    
-    
-        <div id="wrapper">
-        
-            <nav id = "myNav">
-                
-                <a href="index.html"> <h4> Maruth Goyal. </h4> </a>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maruth Goyal's Portfolio</title>
 
-                <ul id="nonMobileList">
-                
-                   
-                    <li> <a href = "index.html">Home</a></li>
-                    <li> <a href = "#">Blog</a></li>
-                    <li > <a href = "#">Artwork</a></li>
-                
-                </ul>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.blue_grey-green.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="bower_components/animate.css/animate.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
 
-            
-            </nav>
-            
-            
-        </div>
-
-       
-     
-            
-
-                <div id="titleArea" ><center><img src="octagon.svg" id = "bigIcon"> </center>  </div> 
-
-           
-          
-            
-
-            <div id = "about">
-            
-                <div class = "animated wow slideInLeft" id="about-text1">    
-
-                    <p>
-
-                        "Hi. I'm Maruth. I'm a student at DPS Noida in India.
-                        Logic is my one and true love. Math and Computer Science,
-                        to be more specific. I am affluent in 7 languages: English, 
-                        Hindi, Java, HTML, CSS, Symbolic and Material." 
-
-                    </p>
-
-
-                </div>
-    
-
-              <div class="animated wow slideInRight" id = "about-text2" onclick="sizeChecker()">
-                    
-                    <p >
-                        
-                        "I love problems. Problems that really test thinking capabilites.
-                        Be it the Goldbach Conjecture, creating a reccursive algorithm, a philosophical crisis
-                        or deciding whether I like DC or Marvel more." 
-
-                    </p>
-
-                </div> 
-
-                <br>
-
-                <div class= "animated wow slideInLeft" id= "about-text3">
-                    
-                    <p>
-
-                        "I've been learning to play the guitar for the past 4 years. 
-                         On occasion I write stuff like blog posts, short poems and 
-                         article drafts. I really love designing stuff ( especially Batman related stuff ),
-                         be it a logo, app, website or desktop wallpaper. I'm a huge fan of music, with my
-                         favourite genres being <em>The Blues</em>, <em>Rock</em>, <em>Metal</em> and <em>Heavy Metal</em> 
-                        "
-
-
-
-                    </p>
-
+<body class="main mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header main">
+        <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+            <span>
+                <div class="mdl-layout__header-row"></div>
+                <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+                    <h2 style="font-family:'Monaco'">> Maruth Goyal's Portfolio<span class="blink">_</span></h2>
                 </div>
 
+                <div class="mdl-layout--small-screen-only mdl-layout__header-row">
+                    <h4 style="font-family:'Monaco'">> Maruth Goyal's<br>Portfolio<span class="blink">_</span></h4>
+                </div>
+            </span>
+            <div id="tabs" class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark" style="height:44px; font-family:'Monaco'">
+                <a href="#" class="mdl-layout__tab" onclick="goHome()"><span style="text-transform: lowercase;">cd Home</span></a>
+                <a href="#portfolio" class="mdl-layout__tab is-active"><span style="text-transform: lowercase;">ls Projects</span></a>
+                <a href="#help" class="mdl-layout__tab"><span style="text-transform: lowercase;">help</span></a>
+            </div>
+        </header>
 
+        <main class="mdl-layout__content">
+            <!-- Portfolio !-->
+            <div class="mdl-layout__tab-panel is-active" id="portfolio">
 
             </div>
 
-           <p id = "hi">  </p>
+            <!-- help !-->
+            <div class="mdl-layout__tab-panel" id="help">
+                <section class="section--center mdl-grid mdl-grid--no-spacing">
+                    <div class="mdl-cell mdl-cell--12-col">
+                        <h4 style="font-family:'Monaco';">Help</h4>
+                        <p>To be filled. Entire portfolio below.</p>
 
-              
-                    
-                <div class="animated wow slideInUp">
+                            <form method="get" action="mgoyal_portfolio.zip" style="text-align:center">
+                                <button id="down" class="mdl-button mdl-js-button mdl-button--primary">Download Portfolio</button>
+                            </form>
 
-                <center>
-                    <a href="https://www.facebook.com/MaruthSlash">
-                        
-                         <img src="facebook-icon.svg" style="padding: 2vh;  width: 50px; height: auto;" />
-                    
-                     </a>
-               
-                </center> 
-                
-                 </div>
+                        <div class="mdl-tooltip" for="down">zip compression</div>
+                    </div>
+                </section>
+            </div>
 
-        
-    
-    </body>
+            <!-- footer !-->
+            <footer class="mdl-mini-footer">
+                <div class="mdl-mini-footer__left-section">
+                    <div class="mdl-logo">Matthew Stallone</div>
+                    <ul class="mdl-mini-footer__link-list">
+                        <li><a href="#" onclick="alert('None. ;)')">Privacy & Terms</a></li>
+                    </ul>
+                </div>
 
+                <div class="mdl-mini-footer__right-section">
+                    <ul class="mdl-mini-footer__link-list">
+                        <li>All rights reserved, 2016</li>
+                    </ul>
+                </div>
+            </footer>
+        </main>
+    </div>
 
-    <script type="text/javascript">
+    <!-- home !-->
+    <div class="container" style="text-align: center">
+        <div id="close" class="close" style="float:left; color: #465a63; padding-left:20px; cursor: pointer;" onclick="goHome()"><i class="fa fa-times fa-2x"><span class="fix-editor">&nbsp;</span></i></div>
 
-        new WOW().init();
-        sizeChecker();
+        <h1 style="color: #495d66; font-size: 4.5em; font-weight: 900; letter-spacing: -0.04em; line-height: 1em; padding-top:1em; margin-top: 0"> Maruth Goyal </h4>
+        <p style="color: #495d66; font-size: 1.25em; margin: 0.75em 0 0.25em 0; padding-bottom: 1.6em">Student &nbsp;&bull;&nbsp; Developer</p>
 
-    </script>
+        <div id="twitter" class="icon-wrapper"><a href="#" style="text-decoration:none; rgba(0, 0, 0, 0.0);"><i class="fa fa-twitter custom-icon"><span class="fix-editor">&nbsp;</span></i></a></div>
+        <div class="mdl-tooltip" for="twitter">Follow me on Twitter</div>
 
+        <div id="facebook" class="icon-wrapper"><a href="https://www.facebook.com/maruthgoyal" style="text-decoration:none; rgba(0, 0, 0, 0.0);"><i class="fa fa-facebook custom-icon"><span class="fix-editor">&nbsp;</span></i></a></div>
+        <div class="mdl-tooltip" for="facebook"> Find me on Facebook </div>
+
+        <div id="port" class="icon-wrapper" onclick="goHome()"><i class="fa fa-folder-o custom-icon"><span class="fix-editor">&nbsp;</span></i></div>
+        <div class="mdl-tooltip" for="port">View my Portfolio</div>
+
+        <div id="github" class="icon-wrapper"><a href="https://github.com/maruthgoyal" style="text-decoration:none; rgba(0, 0, 0, 0.0);"><i class="fa fa-github custom-icon"><span class="fix-editor">&nbsp;</span></i></a></div>
+        <div class="mdl-tooltip" for="github">View my Github</div>
+
+        <div id="email" class="icon-wrapper"><a href="mailto:maruth@maruthgoyal.com" style="text-decoration:none; rgba(0, 0, 0, 0.0);"><i class="fa fa-envelope-o custom-icon"><span class="fix-editor">&nbsp;</span></i></a></div>
+        <div class="mdl-tooltip" for="email">Email me</div>
+    </div>
+
+    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="scripts/min/main-min.js"></script>
+    <script src="bower_components/foggy/jquery.foggy.min.js"></script>
+</body>
 
 </html>
