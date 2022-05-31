@@ -1,0 +1,41 @@
+body { 
+	font-family: 'EB Garamond', serif;
+  width: 70%;
+  margin: 0 auto;
+}
+h1, h2, h3,#info, .post_title {
+	font-family: "Roboto Slab", Monaco, monospace;
+}
+
+#title {
+}
+
+table {
+	border-spacing: 10px;
+}
+
+#project > li{
+    margin-bottom: 10px;
+}
+
+.post {
+  margin: 0 auto;
+  width: 60%;
+  text-align: justify;
+}
+
+.post_title {
+  font-size: 1.5em;
+}
+
+.post_time {
+  color: grey;
+}
+
+.post_body {
+  text-align: justify;
+  padding-bottom: 30px;
+}
+
+.katex { font-size: 1em !important; }
+
