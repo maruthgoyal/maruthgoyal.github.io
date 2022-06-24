@@ -2,6 +2,8 @@ body {
 	font-family: 'Roboto', sans-serif;
   width: 50%;
   margin: 0 auto;
+  text-align: justify;
+  text-justify: inter-word;
 }
 h1, h2, h3,#info, .post_title {
 	font-family: "Roboto Slab", Monaco, monospace;
