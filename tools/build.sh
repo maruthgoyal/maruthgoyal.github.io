@@ -59,7 +59,6 @@ pandoc \
   --template=template \
   --css="$css_rel_path/theme.css" \
   --css="$css_rel_path/skylighting-solarized-theme.css" \
-  --css="$css_rel_path/style.css" \
   --toc \
   --wrap=none \
   --output "$dest" \
