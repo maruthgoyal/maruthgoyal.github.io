@@ -18,7 +18,7 @@ TARGETS := $(patsubst blogmd/%.md,blogs/%.html,$(SOURCES))
 
 .PHONY: all
 all: $(TARGETS)
-	python bgen.py
+	python3 bgen.py
 
 .PHONY: clean
 clean:

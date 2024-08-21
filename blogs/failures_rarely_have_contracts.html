@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc-markdown-css-theme" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <link href='https://fonts.googleapis.com/css?family=Roboto Slab' rel='stylesheet'>
+  <meta name="author" content="@maruth" />
+  <meta name="dcterms.date" content="2024-08-19" />
+  <title>System failures rarely have contracts</title>
+  <link rel="stylesheet" href="../blog-css/theme.css" />
+  <link rel="stylesheet" href="../blog-css/skylighting-solarized-theme.css" />
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css" />
+</head>
+<body>
+
+<header>
+<h1 class="title">System failures rarely have contracts</h1>
+<blockquote class="metadata">
+<p class="author">
+      <a href="https://github.com/maruthgoyal"><span class="citation" data-cites="maruth">@maruth</span></a>
+  </p>
+<p class="date before-toc"><time datetime="2024-08-19">2024-08-19</time></p>
+</blockquote>
+</header>
+
+<nav id="TOC" role="doc-toc">
+    <strong>Contents</strong><label for="contents">⊕</label>
+  <input type="checkbox" id="contents">
+  <ul>
+  <li><a href="#ponder-y-thoughts" id="toc-ponder-y-thoughts">Ponder-y thoughts</a></li>
+  </ul>
+</nav>
+
+<main>
+<p>It is often very useful to reason about systems by thinking in terms of “Suppose <span class="math inline">P</span> is true about the system, then after <span class="math inline">X</span> happens, <span class="math inline">Q</span> will be true about the system”. For instance, “if the user provides a valid payment method, then after they click the pay button and their payment is processed, their payment method will have been charged the correct amount”. Some people refer to this as thinking about the “invariants” of the system, others refer to it as the “contract” of whatever subsystem performs <span class="math inline">X</span>. This method of reasoning is really nice because it lets you reason about subsystems in isolated fashion, and lends itself really nicely to composition. <a href="https://en.wikipedia.org/wiki/Hoare_logic">Hoare logic</a> is one formalization of this.</p>
+<p>But what about when <span class="math inline">X</span> <em>fails</em>? What do we know about the system now? Surely, we can conclude the payment method will <strong><em>not</em></strong> have been charged the correct amount, … right? I argue that you can conclude <strong><em>nothing</em></strong> , and trying to conclude <strong>something</strong> and trying to “recover” around it is a recipe for disaster. “Heresy!” you say, “what if the payment network explicitly declined the payment and promise not to charge the payment method anything?”. Indeed then, suppose the failure is precisely a decline from the payment network you may conclude the payment method was not charged. I will distinguish such cases as <strong>faults</strong>, not <em>failures</em>.</p>
+<p>Faults are explicitly accounted and designed for when designing a system, encompassing the <em>fault domain</em> of a system. Failures are breakages outside the fault domain. For instance, suppose you made an HTTP request to the payment network’s API, but the connection dies before you get a response. Should you assume the payment went through? Or that it failed? Or maybe the server never got it? None of them, assume nothing! Any of those outcomes and everything in between <em>could</em> have occurred. When I say assume nothing, I mean literally consider yourself in a state where nothing is known about the system. The goal then is to then get back to a set of assumptions that correspond to a valid state within the system. You might do this by poking at various parts of the system state, collecting assumptions as you go. For instance, querying the payments API to see if a payment really did get received and go through. I want to stress the important distinction here! If the payments API sent a response back saying the payment declined or that you can retry the payment, designing around that fault is fine! But in the case where the network blipped you have a failure not a fault and you know nothing about system state so you must reconstruct it!</p>
+<p>“Fine, we get it why are you harping on this so much?”, great question! Because this distinction was key to addressing one of the top 3 hardest things I have had to debug (perhaps a separate post!). In that case, the system treated a failure as a fault. In particular, the system treated stack overflows as recoverable errors. It would just catch the exception, fail the request, and keep processing new user requests. Except, in a language with a GC that runs in the same thread on the same stack as business logic that assumption is far from true. First: such a garbage collector’s contract can roughly be thought of as “assuming a valid starting state, after running to completion, dead objects will be collected and no live objects will be collected”. But this says nothing about GC not running to completion (in which case we may assume nothing)! Second: stack overflows are somewhat unique in that they can happen <em>literally</em> anywhere … including <em>during</em> garbage collection! Putting these two together, we can classify stack overflows as being a failure: you can assume nothing about the state of the system when one happens. Observe I do not claim that you can assume memory is corrupted – it may very well be in a perfectly valid state, or it may not! (hence, you assume nothing!).</p>
+<p>The key takeaway is it’s important to distinguish failures from faults in your system. It is tempting to encounter failures during the operation of a system and put a band-aid to begin treating it like a fault. This will likely make the system even more brittle, resulting eventually in even more complicated failures.</p>
+<h2 id="ponder-y-thoughts">Ponder-y thoughts</h2>
+<p>From the above, clearly larger fault domains are better. In the limit, the fault domain is the complement of the set of successful outcomes. For system design, this motivates an approach where (a) subsystem states are isolated, and (b)one can efficiently and accurately determine whether the outcome of a subsystem was a successful outcome. In such a world, one may feasibly reset a subsystem in the absence of a successful outcome. This seems to be very related to Erlang’s “Let it Crash!” philosophy and supervisor model, but I don’t have enough experience with it to make an assertive claim. Note this does seem too dissimilar from (and is perhaps equivalent to) treating all non-success outcomes as failures!</p>
+</main>
+
+<script>
+;(function() {
+  // Non-essential if user has JavaScript off. Just makes checkboxes look nicer.
+  var selector = '.task-list > li > input[type="checkbox"]';
+  var checkboxes = document.querySelectorAll(selector);
+  Array.from(checkboxes).forEach((checkbox) => {
+    var wasChecked = checkbox.checked;
+    checkbox.disabled = false;
+    checkbox.addEventListener('click', (ev) => {ev.target.checked = wasChecked});
+  });
+})();
+</script>
+</body>
+</html>
