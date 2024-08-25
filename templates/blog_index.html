@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maruth's Blog</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="{{image_dir}}/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{image_dir}}/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{image_dir}}/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta charset="utf-8"/>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link href='https://fonts.googleapis.com/css?family=Roboto Slab' rel='stylesheet'>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+      onload="renderMathInElement(document.body);"></script>
+  <style>
+.row {
+  display: flex;
+  width: 50%;
+  height: auto;
+}
+
+.column {
+  flex: 20%;
+  padding: 5px;
+}
+    .icon {
+      height: auto;
+      width: 40%;
+      display: inline-block;
+    }
+
+    h1 {
+	    text-align: center
+    }
+
+       h2 {
+            color: #4B0082;
+        }
+        .post-date {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .post-preview {
+            margin-bottom: 30px;
+        }
+  </style>
+</head>
+<body>
+    <h1>Maruth's Blog</h1>
+    {% for post in blog_posts %}
+    <div class="post-preview">
+        <h2><a href="blogs/{{ post.file }}">{{ post.title }}</a></h2>
+        <p class="post-date">Posted on: {{ post.date }}</p>
+        <p>{{ post.preview }}</p>
+    </div>
+    {% endfor %}
+</body>
+</html>

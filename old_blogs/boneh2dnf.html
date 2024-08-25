@@ -1,0 +1,269 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <title>
+   Kinda Homomorphic Encryption
+  </title>
+  <link href="../images/favicon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+  <link href="../images/favicon/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+  <link href="../images/favicon/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+  <link href="/site.webmanifest" rel="manifest"/>
+  <meta charset="utf-8"/>
+  <link href="../style.css" rel="stylesheet" type="text/css"/>
+  <link href="https://fonts.googleapis.com/css?family=Roboto Slab" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&amp;display=swap" rel="stylesheet"/>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6">
+  </script>
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" rel="stylesheet"/>
+  <script crossorigin="anonymous" defer="" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js">
+  </script>
+  <script crossorigin="anonymous" defer="" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" onload="renderMathInElement(document.body, {'macros': {
+    '\\pk': '\\mathsf{PK}',
+    '\\sk': '\\mathsf{SK}',
+    '\\enc': '\\mathsf{Encrypt}',
+    '\\dec': '\\mathsf{Decrypt}',
+    '\\ar': '\\rightarrow',
+    '\\G': '\\mathcal{G}'
+  }, delimiters: [
+                  {left: '$$', right: '$$', display: true},
+                  {left: '\\[', right: '\\]', display: true},
+                  {left: '$', right: '$', display: false},
+                  {left: '\\(', right: '\\)', display: false}
+              ]});" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <h1 style="text-align: center;">Maruth's Blog</h1>
+  <h1 id="title">
+   Kinda Homomorphic Encryption
+  </h1>
+  <span class="post_time" id="date">
+   19 May, 2020, 11:22 CDT
+  </span>
+  <div class="post_body">
+   <h2>
+    1. Introduction
+   </h2>
+   <p id="preview">
+    Computing on your own machine is not cool anymore. No, today you must offload all computations on your
+    <i>
+     precious
+    </i>
+    data to the latest, greatest vendor who will solve all your problems with
+    <span class="glow" style="font-family: 'comic sans ms'; color:red;">
+     machine learning
+    </span>
+    .
+    But then we must ask ourselves: do we trust the cloud? I mean what if it rains?
+    <i>
+     *audience dies of laughter*
+    </i>
+    Ok, but seriously.
+    Your data matters ™. Why would you trust these external vendors with your data? "I'll just encrypt my data!", you say triumphantly. Well, genius, it's still
+    going to have to be decrypted for the vendor to compute on it!
+    <b>
+     Or does it.
+    </b>
+    <i>
+     *queue tense music*
+    </i>
+   </p>
+   <p>
+    What if we could compute on encrypted data without every decrypting it? This is where "Homomorphic Encryption" comes in. Rivest, Shamir, and Adleman famously published the RSA public-key
+   encryption algorithm in 1978. RSA is now the de-facto encryption method across the internet. But even back then, just an year later the authors asked this question of computing on encrypted data.
+   In fact, their algorithm lets you multiply on encrypted data without every decrypting it, but does not support addition. There are other encryption schemes which allow for addition, but not multiplication.
+   But as we say, get yourself someone who can do both. This quest eventually led to Craig Gentry's "Fully Homomorphic Encryption using Ideal Lattices". However, today I want to focus in on what was one of the big
+   stepping stones in this quest. In 2006, Dan Boneh, Eu-Jin Goh, and Kobbi Nissim introduced an encryption method that allowed unlimited additions on encrypted data, but only one multiplication. While
+   just one multiplication might feel very weak, it was a great step forward, and opened up a lot of follow-up work.
+
+   Before going into the details of the encryption itself, I'll go over some of the awesome applications they discussed.
+   </p>
+   <h2>
+    2. Secure Voting
+   </h2>
+   <p>
+    Before I get started, we need to establish some basic properties and notation for the encryption. I will use \(\pk, \sk\) to denote the public-key and secret-key respectively.
+    Moreover \(\enc(\pk, x)\) denotes the encryption of \(x\) under public key \(\pk\). We additionally have the property that if \(c_i = \enc(\pk, x_i)\) then \(\dec(\sk, \sum_{i,j} c_ic_j) = \sum_{i,j} x_ix_j\). i.e,
+    the encryption is additively homomorphic, but also up to one multiplication. For this specific encryption scheme, it is important to know that \(\enc\) requires access to randomness. Thus, while the decryption is deterministic,
+    the encryption of a given bit may be different every time.
+   </p>
+   <!-- <h3>2.1 Secure 2-DNF evaluation</h3>
+  <p>
+    Ok, now that we have this, I want to first go over a simpler application: securely evaluating 2-DNF circuits. I don't know about you, but whenever I meet my friends I love giving them an encrypted boolean
+    assignment, and in return they tell me the encrypted ouput of some 2-DNF circuit without revealing anything about the circuit to me! Moreover, I am clearly notoriously adversarial and thus will do my damndest
+    to trip you into revealing something. So here's our setup: you, the reader, are \(A\), and in possesion of a 2-DNF formula \(\phi \). I will send you an encryption of bits \(a_i\), and ask
+    you to send me an encryption of \(\phi(a_i)\). Neither of should learn anything about the values of \(a_i\) and \(\phi\) respectively. How do we do this? Consider the following:
+    <ol>
+      <li> I send you my public key \(\pk\) in addition to any other public data in this encryption system (more on this later) </li>
+      <li> You (rightly) do not trust me, and so perform some computations of your own to verify that \(\pk\) is a valid public key (I'll explain later)</li>
+      <li> You now want to know whether I am actually even capable of decrypting this encryption scheme, so you know it's not all just BS. Hence, you send me \(\enc(\pk, x_i)\) for some random bits.
+        I then decrypt them and send the decrypted bits back to you. If they don't match \(x_i\), you throw your hands and leave me. 
+      </li>
+      <li>
+        Ok, now that we both kind of trust each other, I send you the encryption of my bits \(a_i\). Let the encrypted bits be \( e_i \). 
+      </li>
+      <li>
+        To evaluate the circuit over these encrypted bits, you want to represent your circuit using additions and multiplication. If you think about it \( \lor, \land \) are sort of an addition and multiplication.
+        So we do exactly that: (1) Replace \(\lor\) with \(+\) (2) Replace \(\land\) with \(\cdot \), and (3) Replace \(\neg x\) with \(1 - x\). For a 2-DNF, it is easy to verify this gives you an at most degree-2
+        multivariate polynomial: exactly what our scheme can work with! 
+      </li>
+      <li>
+        "But wait!", you say. What if the encrypted bits I sent you are not just \(0,1\)? I could learn a lot about your polynomial, and thereby the circuit, by just querying you on random points! You, being the wizard you are,
+        come up with this handy-dandy gadget. In addition to evaluating the polynomial, you evaluate \( \sum_i r_i \cdot e_i(1 - e_i) \), and send me \( \Phi(e) + \sum_i r_i \cdot e_i(1 - e_i) \) as your answer. Here, \(r_i\) is
+        just some random bit. Why would you ever do this? If you look closely, unless \(e_i \in \{0,1\} \), the sum \(\sum_i r_i \cdot e_i(1 - e_i)\) will evaluate to some random garbage. Otherwise it will necessarily be 0. So if I try
+        to trick you with some garbage input, well you send me back some literally random garbage. Nifty, eh?
+      </li>
+      <li>
+        I just take the encrypted bit you sent me, decrypt it, and output \(1\) if it's \(1\) and 0 otherwise.
+      </li>
+    </ol>
+    Whew. That's a lot of steps for evaluating some circuit right? Well, they're somewhat necessary in our case. You perform all the extra steps to verify I am not trying to fool you, but then additionally
+    put in a safeguard in case I do try and fool you. Think of it as form validation if you will. This protocol is safe, since you only get my secure encrypted bits, and I only ever get your encrypted output.
+    Moreover, your output is correct iff I send you a valid input. In fact, this protocol is secure even if I were, hypothetically, infinitely smart. 
+  </p>
+
+  <p> -->
+   <p>
+    It's a weirdly apt time to be talking about voting, given that we are about to have an election for the next leader of the free world, during an unprecedented
+      global pandemic. No big deal. In elections it is paramount that we know a given vote contains a
+    <b>
+     valid
+    </b>
+    value. i.e., if our candidates are Bernie, and Trump, then
+      each vote is one of them (assuming write-ins, other candidates don't exist for simplicity here). Note, we do not need to know which candidate the vote is for, just that it contains a valid value.
+      The standard way to do this is using "Zero Knowledge Proofs". Essentially, proofs that will convey exactly that the vote is valid, and absolutely nothing more. Hence, "zero knowledge". While there are standard
+      procedures for generating these proofs, these procedures rely on the existence of a "random oracle". In particular, they rely on cryptographic hash functions. Firstly, these might be expensive to evaluate, but moreover
+      there's the issue of hash collisions (
+    <a href="https://shattered.io/">
+     SHA-1 collision
+    </a>
+    ). The election scheme described by Boneh et al. is (a) efficient, but also (b) does not rely on
+      random oracles.
+   </p>
+   <p>
+    For this scheme, we will assume a slightly modified version of the encryption scheme. In particular, we will consider a "threshold" version. Essentially, now the secret key \(\sk\) is split
+      up among the \(N\) people on our election comittee so that you need at least \(t\) people to coorporate be able to decrypt anything. There are standard methods to convert encryption schemes like
+      the one described in the paper into this threshold version. Let's assume we have a leader on our EC, let's call him Bob. Moreover, let's say there's some public "board" that everyone including the voters
+      can read and write on (say, a Google doc). Suppose the entity that distributed the shared key among the EC also published all the public parameters of the encryption scheme on the Doc. Finally, assume there are
+      only 2 candidates: Isil (represented by 1), and Calvin (represented by 0).
+   </p>
+   <p>
+    We first need everyone on the EC to trust Bob. One way to do this might be to have Bob prove that (1) he is capable of encrypting things, (2) have everyone verify
+      his encryption is indeed valid. So let's say Bob computes \(E_1 = \enc(\pk, 1; r)\) where \(r\) are the bits of randomness he uses. He will then go to the Doc and write down
+      the value of \(E_1\), and \(r\). Why? Well now the others can compute \(\enc(\pk, 1;r)\) on their own, and verify equality with \(E_1\). Remember that I mentioned that this encryption
+      uses randmness: that's why Bob posts $r$ as well, so that everyone else has access to the same randomness for verification. Now that everyone trusts each other, we have
+      the voters posted their encrypted ballots on the Doc. i.e., if their ballot is \(b_i\), they post \(v_i = \enc(\pk, b_i)\). Well, now we can merily go and count the votes by just
+      adding them up homomorphically right?
+    <i>
+     Nope.
+    </i>
+    What if smartass Aditya posted \(\enc(\pk, 100)\) as his vote? Isil would get \(99\) extra votes for free! Hence, we first need to check
+      that all the votes are valid. In other words, that each vote is either an encryption of 0, or 1. However, we want to do this without compromising voter privacy. What shall Bob do?
+   </p>
+   <p>
+    Remember how I said the encryption is additively homomorphic, and upto one multiplication? Well, that means we can compute any multivariate degree 2 polynomial over our encrypted votes!
+      Ok cool, now what. Well, what if we could construct some polynomial, say \(p(v)\), which outputs 0 when \(v \in \{0,1\}\), but outputs random garbage otherwise?
+      How about \(p(v) = v(E_1 - v)\)? Well, it does satisfy the first condition. The value is indeed somewhat random in the event the vote is invalid. I'm not entirely sure right now (I'll think about it more), but 
+      for added security, the authors also multiply by a random number \(r_i\), giving us \(p(v) = r \cdot v(1 - v)\). Ok, so now we have a method to check if a given vote is valid. We now need the EC
+      to come together and agree on the number of valid votes, and find and discard the invalid votes. Let's have Bob compute \(c = \sum_i p(v_i)\). Similarly, everyone on the EC will compute the same \(c_k = \sum_i p(v_i)\).
+      Now, Bob needs to find \(t-1\) other people who he trusts, and who trust him since he wants to decrypt \(c\) to find the invalid votes if they exist. To do this, he will simply check his value \(c\) against everyone elses
+      value \(c_k\). Only people whose values agree with Bob's join him. Note, unless we have a lot of malicious actors (in which case we have bigger issues) in the EC, this condition should be satisfied since \(p(v)\) is a deterministic computation given the value \(E_1\) which
+      Bob posted on the Doc earlier. If we do have malicious actors, then when the EC computes \(d = \dec(\sk, c)\) we shall have \(d \neq 0\). The authors say that at this point binary search can be used to find the invalid votes.
+    <!-- I imagine you can define \(v_i \leq v_j = \dec(\sk, v_i - v_j) \leq 0\) as an order on the votes in order to sort them. Then you can use standard generalized binary search with \(p(v) = 0\) as your boolean predicate to find the first entry which does not evaluate
+      to \(0\) under \(p\) (this is off the top of my head, don't quote me on this thx). Once Bob finds that vote, he simple discards that vote and all the votes greater than equal to it since they are necessarily \(> 1\) too. You might wonder -->
+    I'm not entirely sure yet why you would go through the trouble of sorting the votes instead of doing a linear scan, or if there's something I'm missing here (I'll update the post if I do figure it out). Once we have filtered out the invalid votes
+      using this method, everyone on the EC homomorphically adds together all the votes to compute \(V\), the final tally. Bob once again goes looking for \(t-1\) other people to help him decrypt \(V\), and again people will join him only if their \(V\) matches his.
+      Once again, the computation of \(V\) here is deterministic, so there's no issue of randomness here.
+   </p>
+   <p>
+    Et voila. We have succesfully conducted a secure election. The security of each step is guaranteed by the security of the encryption, and at no point do we decrypt the votes, or an identifiable computation. By now, I imagine you want to know what's under the hood.
+      Well, by all means let's take a look.
+   </p>
+   <b>
+    Exercise 1 (easy):
+   </b>
+   Suppose Bob and Alice are playing a weird game. Bob has a boolean assignment $a$, and Alice has a 2-DNF formula $\phi$. Bob wants to know $\phi(a)$ but
+    doesn't want to reveal $a$ to Alice. Design a secure communication protocol for this game. i.e., how shall Bob securely send $a$, and then how will Alice compute the value of $\phi$ on
+    $a$ without decrypting it?
+   <br/>
+   <b>
+    Exercise 2 (medium):
+   </b>
+   Now suppose Bob is a cunning adversary, and may not necessarily send you boolean assignments but rather inputs specially designed to let him gain information
+    about Alice's circuit $\phi$. He can do this in polynomial queries because he knows how you're computing $\phi$ in the previous part. Moreover Alice doesn't trust that the public key Bob sent her
+    is correct at all, or that he can even decrypt the encryption. Use the tools we discussed in the election scheme above to allow Bob and Alice to securely solve this problem.
+   <h2>
+    3. The Encryption Scheme
+   </h2>
+   <h3>
+    Bilinear Groups
+   </h3>
+   We use \(G, G_1\) to denote two cyclic groups of order \(n\). Furthermore, \(e: G \times G \ar G_1\) denotes a map such that \(e(u^a, v^b) = e(u,v)^{ab}\).
+    Furthermore for a generator \(g\) of \(G\) we require \(e(g,g)\) is a generator for \(G_1\). Then, \(G\) is bilinear if such \(G_1, e\) exist. For \(n &gt; 3\), which is square-free and not
+    divisible by 3, the authors provide a method to generate bilinear groups of order $n$, but I won't describe it here.
+   <h3>
+    Subgroup decision problem
+   </h3>
+   We define an algorithm $\G(\tau)$ which operates as follows: (1) Generate $\tau$-bit primes $p_1, p_2$, and compute $n = p_1p_2$ (2) Generate order $n$ bilinear group $(G, G_1, e)$ (3) output $(p_1, p_2, G, G_1, e)$.
+   <p>
+    The decision problem is given $(n, G, G_1, e)$ and $x \in G$, decide if $x$ has order $p_1$. The subgroup decision assumption essentially states that any algorithm $\mathcal{A}$ can distinguish between
+      a random element, and an element with order $p_1$ with very small probability. i.e., this is a hard problem.
+   </p>
+   <h3>
+    The scheme
+   </h3>
+   We are now ready to describe the encryption scheme.
+   <h4>
+    Key Generation
+   </h4>
+   To generate the public key, we first call $\G(\tau)$ where $\tau$ is a parameter. This gives us $(p_1, p_2, G, G_1, e)$. Then, we pick two random generators $g,u$ of $G$. We define $h = u^{p_2}$. Essentially $h$ is a
+    generator a subgroup of order $p_1$. Then, the public-key is $\pk = (n, G, G_1, e, g, h)$, and the private key is $\sk = p_1$.
+   <h4>
+    Encryption
+   </h4>
+   To encrypt, we shall must map our string into the group. First, map the string $m$ to a member of the set of integers $\{0,1\dots,T\}$, where $T &lt; p_2$. Then, pick a random $r \in \{0,\dots,n-1\}$,
+    and output $C = g^m h^r$. The second term is essentially this source of randomness which masks our message.
+   <h4>
+    Decryption
+   </h4>
+   To decrypt, observe that our secret key is $p_1$. We know the ciphertext is of the form $g^m h^r = g^m (u^p_2)^r$. So what if we raise the entire expression to the power $p_1$?
+    Well it's an abelian group, so we can power both terms separately, giving $(g^m)^{p_1} (u^p_2)^{p_1 r} = (g^m)^{p_1}(u^{p_1p_2})^r = (g^{p_1})^m$. Great! Now we just need to get rid of that
+    annoying $g^{p_1}$ term. If this were just some real number or something how would you get rid of it? "Just take the log with base $g^{p_1}$!", you say. Well, yes, and no. Since these aren't
+    real numbers we can't do exactly that, but of course there's an ana
+   <i>
+    log
+   </i>
+   (hah!) for cyclic groups, aptly named the
+   <i>
+    discrete logarithm
+   </i>
+   . So, we just compute the discrete logarithm of $C^{p_1}$,
+    and voila out pops the message. This discrete log can be calculated in $O(\sqrt{T} \mathsf{polylog}(T))$ time in our setting using "Pollard's lambda method".
+   <h4>
+    Homomorphic nature
+   </h4>
+   <b>
+    Exercise:
+   </b>
+   You can easily verify this scheme is additively homomorphic. Now you might be wondering, why did we go through the pain of making $G$ bilinear, and 
+    getting $G_1$ and $e$? Well, it's exactly for the purpose of multiplication! I'll give you the setup, but leave the verification/computation as an exercise. First, let $g_1 = e(g,g)$
+    be a generator of $G_1$, and $h_1 = e(g,h) = e(g, u^{p_2}) = e(g,u)^{p_2}$. Now, $C_1 = g^{m_1}h^{r_1}$ and $C_2 = g^{m_2}h^{r_2}$. For some random $r \in \mathbb{Z}_n$, let
+    $C = e(C_1, C_2)h_1^r$. You can verify this gives you an expression of the form $g_1^{m_1m_2}h_1^{r'}$ where $r'$ is still uniformly random. Note also, however, this element is in $G_1$ not in $G$.
+    That's why they allow for only 1 multiplication. I'd imagine you would have to multiply every other ciphertext by the encyption of $1$ in order to add it to any other term with multiplication, since
+    we must now add in $G_1$.
+   <h2>
+    Conclusion
+   </h2>
+   That's it! Very cool right? We just computed on freaking encrypted data without decrypting it. Personally, I find that amazing. The election scheme was also just really interesting to look at for me,
+    I never thought of elections as an interesting problem before. Next time, I'll probably go over Gentry's work on Fully Homomorphic Encryption, and go from there. Until then, adieu :)
+   <h2>
+    Questions for later
+   </h2>
+   <ol>
+    <li>
+     Why do they use binary search?
+    </li>
+   </ol>
+  </div>
+ </body>
+</html>

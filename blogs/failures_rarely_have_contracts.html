@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc-markdown-css-theme" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <link href='https://fonts.googleapis.com/css?family=Roboto Slab' rel='stylesheet'>
+  <meta name="author" content="@maruth" />
+  <meta name="dcterms.date" content="2024-08-19" />
+  <title>System Failures Rarely Have Contracts</title>
+  <link rel="stylesheet" href="../blog-css/theme.css" />
+  <link rel="stylesheet" href="../blog-css/skylighting-solarized-theme.css" />
+</head>
+<body>
+
+<header>
+<h1 class="title">System Failures Rarely Have Contracts</h1>
+<blockquote class="metadata">
+<p class="author">
+      <a href="https://github.com/maruthgoyal"><span class="citation" data-cites="maruth">@maruth</span></a>
+  </p>
+<p class="date before-toc"><time datetime="2024-08-19">2024-08-19</time></p>
+</blockquote>
+</header>
+
+<nav id="TOC" role="doc-toc">
+    <strong>Contents</strong><label for="contents">⊕</label>
+  <input type="checkbox" id="contents">
+  <ul>
+  <li><a href="#introduction" id="toc-introduction">Introduction</a></li>
+  <li><a href="#the-illusion-of-certainty-in-failure" id="toc-the-illusion-of-certainty-in-failure">The Illusion of Certainty in Failure</a></li>
+  <li><a href="#faults-vs.-failures-a-critical-distinction" id="toc-faults-vs.-failures-a-critical-distinction">Faults vs. Failures: A Critical Distinction</a>
+  <ul>
+  <li><a href="#example-the-perils-of-assumptions" id="toc-example-the-perils-of-assumptions">Example: The Perils of Assumptions</a></li>
+  </ul></li>
+  <li><a href="#reconstructing-state-after-failure" id="toc-reconstructing-state-after-failure">Reconstructing State After Failure</a></li>
+  <li><a href="#real-world-consequences-a-cautionary-tale" id="toc-real-world-consequences-a-cautionary-tale">Real-World Consequences: A Cautionary Tale</a></li>
+  <li><a href="#designing-more-robust-systems" id="toc-designing-more-robust-systems">Designing More Robust Systems</a></li>
+  <li><a href="#conclusion" id="toc-conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+
+<main>
+<h2 id="introduction">Introduction</h2>
+<p>In system design, we often rely on invariants and contracts to reason about behavior. For example, we might state: “If a user provides a valid payment method and clicks the pay button, their payment method will be charged the correct amount after processing.” These assumptions form the backbone of our system’s logic. But what happens when things go wrong? In this post, we’ll explore the crucial distinction between faults and failures, and why this difference matters for robust system design.</p>
+<h2 id="the-illusion-of-certainty-in-failure">The Illusion of Certainty in Failure</h2>
+<p>When a system operation fails, it’s tempting to make assumptions about the resulting state. For instance, if a payment fails, surely we can conclude the payment method wasn’t charged, right? Not so fast. I argue that in true failure scenarios, you can conclude <em>nothing</em> about the system’s state. Attempting to “recover” based on unfounded assumptions is a recipe for disaster.</p>
+<h2 id="faults-vs.-failures-a-critical-distinction">Faults vs. Failures: A Critical Distinction</h2>
+<p>To understand why this matters, we need to differentiate between two types of issues:</p>
+<ol type="1">
+<li><p><strong>Faults</strong>: These are anticipated problems within the system’s design. For example, a payment network explicitly declining a transaction is a fault. We can design around these because they’re part of the system’s “fault domain.”</p></li>
+<li><p><strong>Failures</strong>: These are unexpected breakages outside the fault domain. A network connection dying mid-request is a failure. In these cases, we enter a state of complete uncertainty.</p></li>
+</ol>
+<h3 id="example-the-perils-of-assumptions">Example: The Perils of Assumptions</h3>
+<p>Consider an HTTP request to a payment API where the connection drops before receiving a response. Did the payment go through? Did it fail? Did the server even receive the request? The correct answer is: we don’t know. Any outcome is possible, and assuming otherwise is dangerous.</p>
+<h2 id="reconstructing-state-after-failure">Reconstructing State After Failure</h2>
+<p>When facing a true failure, the safest approach is to:</p>
+<ol type="1">
+<li>Assume nothing about the system’s state.</li>
+<li>Systematically reconstruct a valid state by querying various parts of the system.</li>
+<li>Collect verified assumptions as you go.</li>
+</ol>
+<p>This process is more involved than simply catching an error, but it’s crucial for maintaining system integrity.</p>
+<h2 id="real-world-consequences-a-cautionary-tale">Real-World Consequences: A Cautionary Tale</h2>
+<p>I once encountered a system that treated stack overflows as recoverable errors (i.e., faults). It would catch the exception, fail the request, and continue processing new requests. This approach overlooked two critical factors:</p>
+<ol type="1">
+<li>The language’s Garbage collector’s contract (implicitly) assumed (a) valid starting states, and (b) completion.</li>
+<li>Stack overflows can occur anywhere, even during garbage collection.<span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle"/><span class="sidenote">Particularly in language runtimes where Garbage Collection runs on the same stack as application logic (eg: CRuby)<br />
+<br />
+</span></span></li>
+</ol>
+<p>The result? Sometimes the system operated with corrupted memory, leading to unpredictable and hard-to-debug issues.</p>
+<h2 id="designing-more-robust-systems">Designing More Robust Systems</h2>
+<p>To build more resilient systems:</p>
+<ol type="1">
+<li><strong>Expand Your Fault Domain</strong>: The larger your fault domain, the fewer true “failures” you’ll encounter.</li>
+<li><strong>Isolate Subsystem States</strong>: This makes it easier to reset and recover from failures.</li>
+<li><strong>Efficient Outcome Verification</strong>: Develop ways to quickly and accurately determine if a subsystem operation was successful.</li>
+</ol>
+<p>This approach aligns with Erlang’s “Let it Crash!” philosophy and supervisor model, emphasizing clean restarts over complex error handling.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Distinguishing between faults and failures is crucial for system reliability. While it’s tempting to treat all errors as recoverable faults, doing so can lead to brittle systems and more complicated failures down the line. By designing with a clear understanding of your system’s fault domain and implementing robust state verification, you can create more resilient and maintainable systems.</p>
+<p>Remember: In the face of true failure, assume nothing and verify everything.</p>
+</main>
+
+<script>
+;(function() {
+  // Non-essential if user has JavaScript off. Just makes checkboxes look nicer.
+  var selector = '.task-list > li > input[type="checkbox"]';
+  var checkboxes = document.querySelectorAll(selector);
+  Array.from(checkboxes).forEach((checkbox) => {
+    var wasChecked = checkbox.checked;
+    checkbox.disabled = false;
+    checkbox.addEventListener('click', (ev) => {ev.target.checked = wasChecked});
+  });
+})();
+</script>
+</body>
+</html>
