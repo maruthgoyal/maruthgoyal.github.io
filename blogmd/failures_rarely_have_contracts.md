@@ -1,27 +1,64 @@
 ---
-title: "System failures rarely have contracts"
+title: "System Failures Rarely Have Contracts"
 author: "@maruth"
 author-url: 'https://github.com/maruthgoyal'
 date: "2024-08-19"
 ---
 
-Premise
--------
-It is often very useful to reason about systems by thinking in terms of invariants like "if the user provides a valid payment method, then after they click the pay button and their payment is processed, their payment method will have been charged the correct amount". Some people refer to this as  the "invariants" of the system, others refer to it as the "contract" of the subsystem. But what about when processing the payment  _fails_? What do we know about the system now? Surely, we can conclude the payment method will ***not*** have been charged the correct amount, ... right? I argue that you can conclude ***nothing*** , and trying to conclude **something** and trying to "recover" around it is a recipe for disaster. "Heresy!" you say, "what if the payment network explicitly declined the payment and promise not to charge the payment method anything?". Indeed then, suppose the failure is precisely a decline from the payment network you may conclude the payment method was not charged. I will distinguish such cases as **faults**, not *failures*. 
+## Introduction
 
-Faults and Failures
-------
-Faults are explicitly accounted and designed for when designing a system, encompassing the *fault domain* of a system. Failures are breakages outside the fault domain. For instance, suppose you made an HTTP request to the payment network's API, but the connection dies  before you get a response. Should you assume the payment went through? Or that it failed? Or maybe the server never got it? None of them, assume nothing! Any of those outcomes and everything in between _could_ have occurred.  When I say assume nothing, I mean literally consider yourself in a state where nothing is known about the system. The goal then is to then get back to a set of assumptions that correspond to a valid state within the system. You might do this by poking at various parts of the system state, collecting assumptions as you go. For instance, querying the payments API to see if a payment really did get received and go through. I want to stress the important distinction here! If the payments API sent a response back saying the payment declined or that you can retry the payment, designing around that fault is fine! But in the case where the network blipped you have a failure not a fault and you know nothing about system state so you must reconstruct it! 
+In system design, we often rely on invariants and contracts to reason about behavior. For example, we might state: "If a user provides a valid payment method and clicks the pay button, their payment method will be charged the correct amount after processing." These assumptions form the backbone of our system's logic. But what happens when things go wrong? In this post, we'll explore the crucial distinction between faults and failures, and why this difference matters for robust system design.
 
-A real-life example
------------------
-This distinction was key to addressing one of the harder things I have had to debug (perhaps a separate post!). In that case, the system treated a failure as a fault. In particular, the system treated stack overflows as recoverable errors. It would just catch the exception, fail the request, and keep processing new user requests. Except, in a language with a GC that runs in the same thread on the same stack as business logic that assumption is far from true. First: such a garbage collector's contract can roughly be thought of as "assuming a valid starting state, after running to completion, dead objects will be collected and no live objects will be collected". But this says nothing about GC not running to completion (in which case we may assume nothing)! Second: stack overflows are somewhat unique in that they can happen *literally* anywhere ... including *during* garbage collection!  Putting these two together, we can classify stack overflows as being a failure: you can assume nothing about the state of the system when one happens. Observe I do not claim that you can assume memory is corrupted -- it may very well be in a perfectly valid state, or it may not! (hence, you assume nothing!). The net impact here was the system would sometimes be operating in an environment with incorrect memory, which led to all sorts of fun stuff. 
+## The Illusion of Certainty in Failure
 
-Takeaway
-----------
-The key takeaway is it's important to distinguish failures from faults in your system. It is tempting to encounter failures during the operation of a system and put a band-aid to begin treating it like a fault. This will likely make the system even more brittle, resulting eventually in even more complicated failures.
+When a system operation fails, it's tempting to make assumptions about the resulting state. For instance, if a payment fails, surely we can conclude the payment method wasn't charged, right? Not so fast. I argue that in true failure scenarios, you can conclude *nothing* about the system's state. Attempting to "recover" based on unfounded assumptions is a recipe for disaster.
 
-How to think about designing systems from here
------------------------------
-From the above, clearly larger fault domains are better. In the limit, the fault domain is the complement of the set of successful outcomes. For system design, this motivates an approach where (a) subsystem states are isolated, and (b)one can efficiently and accurately determine whether the outcome of a subsystem was a successful outcome. In such a world, one may feasibly reset a subsystem in the absence of a successful outcome. This seems to be very related to Erlang's "Let it Crash!" philosophy and supervisor model, but I don't have enough experience with it to make an assertive claim. Note this does seem too dissimilar from (and is perhaps equivalent to) treating  all non-success outcomes as failures! 
+## Faults vs. Failures: A Critical Distinction
 
+To understand why this matters, we need to differentiate between two types of issues:
+
+1. **Faults**: These are anticipated problems within the system's design. For example, a payment network explicitly declining a transaction is a fault. We can design around these because they're part of the system's "fault domain."
+
+2. **Failures**: These are unexpected breakages outside the fault domain. A network connection dying mid-request is a failure. In these cases, we enter a state of complete uncertainty.
+
+### Example: The Perils of Assumptions
+
+Consider an HTTP request to a payment API where the connection drops before receiving a response. Did the payment go through? Did it fail? Did the server even receive the request? The correct answer is: we don't know. Any outcome is possible, and assuming otherwise is dangerous.
+
+## Reconstructing State After Failure
+
+When facing a true failure, the safest approach is to:
+
+1. Assume nothing about the system's state.
+2. Systematically reconstruct a valid state by querying various parts of the system.
+3. Collect verified assumptions as you go.
+
+This process is more involved than simply catching an error, but it's crucial for maintaining system integrity.
+
+## Real-World Consequences: A Cautionary Tale
+
+I once encountered a system that treated stack overflows as recoverable errors (i.e., faults). It would catch the exception, fail the request, and continue processing new requests. This approach overlooked two critical factors:
+
+1. The language's Garbage collector's contract (implicitly) assumed (a) valid starting states, and (b) completion.
+2. Stack overflows can occur anywhere, even during garbage collection.[^1]
+
+[^1]: Particularly in language runtimes where Garbage Collection runs on the
+same stack as application logic (eg: CRuby)
+
+The result? Sometimes the system operated with corrupted memory, leading to unpredictable and hard-to-debug issues.
+
+## Designing More Robust Systems
+
+To build more resilient systems:
+
+1. **Expand Your Fault Domain**: The larger your fault domain, the fewer true "failures" you'll encounter.
+2. **Isolate Subsystem States**: This makes it easier to reset and recover from failures.
+3. **Efficient Outcome Verification**: Develop ways to quickly and accurately determine if a subsystem operation was successful.
+
+This approach aligns with Erlang's "Let it Crash!" philosophy and supervisor model, emphasizing clean restarts over complex error handling.
+
+## Conclusion
+
+Distinguishing between faults and failures is crucial for system reliability. While it's tempting to treat all errors as recoverable faults, doing so can lead to brittle systems and more complicated failures down the line. By designing with a clear understanding of your system's fault domain and implementing robust state verification, you can create more resilient and maintainable systems.
+
+Remember: In the face of true failure, assume nothing and verify everything.
